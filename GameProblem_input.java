@@ -1,14 +1,17 @@
+/*  David Twyman, Andrew LeDawson
+ **  dtwyman@calpoly.edu, aledawson@calpoly.edu
+ **  CSC 349-03
+ **  Project 3
+ **  2-12-2018
+ *//*
+
+
 package com.csc349.project3;
 
 import java.io.*;
 import java.util.*;
 
-/**
- * Created by Andrew LeDawson on 2/12/2018.
- */
-public class GameProblem {
-    private enum Move {RIGHT, DOWN}
-
+public class GameProblem_input {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter the data file name");
@@ -19,7 +22,7 @@ public class GameProblem {
             FileReader inputFile = new FileReader(file);
             BufferedReader lineBuffer = new BufferedReader(inputFile);
             game = scanFile(lineBuffer);
-            game(game.rows, game.cols, game.A);
+            solveGame(game.rows, game.cols, game.A);
             //printA(game);
         } catch (FileNotFoundException fileError) {
             System.out.println("ERROR: File not found!");
@@ -34,7 +37,10 @@ public class GameProblem {
         }
     }
 
-    /* Scans the input file into the Game */
+
+    */
+/* Scans the input file into the Game *//*
+
     private static Game scanFile(BufferedReader lineBuffer) throws IOException {
         Scanner scanner = new Scanner(lineBuffer.readLine()).useDelimiter(" ");
         int rows_len = scanner.nextInt();
@@ -52,41 +58,29 @@ public class GameProblem {
         return game;
     }
 
-    public static void game(int n, int m, int[][] A){
-        int[][] scores = new int[n][m];
-        Move[][] moves = new Move[n][m];
-        int highestScoreX = -1;
-        int highestScoreY = -1;
+    */
+/*
+     ** Finds and saves the optimal result by starting at the bottom right
+     ** and saving the optimal solution.  It then iterates through the
+     ** rest going left and then up and saves each optimal solution there
+     ** which would be the value of A there + min(row down, col right)
+     *//*
 
-        // Start scanning at bottom row and right columm, iterate
-        for(int column = n - 1, row = m - 1; column >= 0 && row >= 0; column--, row--){
-            // Iterate through the row
-            for(int xInRow = column; xInRow >= 0; xInRow--){
-                moves[xInRow][row] = findBestMove(n, m, xInRow, row, A, scores);
-            }
-            // Iterate through the column
-            for(int yInColumn = row; yInColumn >= 0; yInColumn--){
-                moves[column][yInColumn] = findBestMove(n, m, column, yInColumn, A, scores, moves);
-            }
-            System.out.println("DEBUG: Finished finding best moves");
-        }
+    public static void solveGame(int rows, int cols, int[][] A) {
+        int[][] best = new int[rows][cols];
     }
 
-    private static Move findBestMove(int numRows, int numCols, int x, int y, int[][] grid, int[][] scores){
-        if(y >= numRows){ // If no lower cells, must go right (include bottom rightmost cell)
-            return Move.RIGHT;
-        }
-        if(x >= numCols){ // If no right cells, must go down
-            return Move.DOWN;
-        }
-        if(scores[x+1][y] > scores[x][y+1]){ // Compare right and down move scores and return better score
-            return Move.RIGHT;
-        }else{
-            return Move.DOWN;
-        }
+    */
+/*
+     ** Prints the result by starting at the max score and following
+     ** the path of larger values until the end
+     *//*
+
+    public static void printResult(int[][] best, int startrow, int startcol) {
+        boolean keep_going = true;
     }
 
-    private static void printA(Game game) {
+    public static void printA(Game game) {
         for (int i = 0; i < game.rows; i++) {
             for (int j = 0; j < game.cols; j++) {
                 System.out.print(game.A[i][j] + " ");
@@ -94,4 +88,4 @@ public class GameProblem {
             System.out.println("");
         }
     }
-}
+}*/
