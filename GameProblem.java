@@ -58,22 +58,38 @@ public class GameProblem {
         int highestScoreX = -1;
         int highestScoreY = -1;
 
-        // Start scanning at bottom row and right columm, iterate
+        // Start scanning at bottom row and right column, iterate
         for(int column = n - 1, row = m - 1; column >= 0 && row >= 0; column--, row--){
             // Iterate through the row
             for(int xInRow = column; xInRow >= 0; xInRow--){
-                moves[xInRow][row] = findBestMove(n, m, xInRow, row, A, scores);
+                Move bestMove = findBestMove(n, m, xInRow, row, A, scores);
+                moves[xInRow][row] = bestMove;
+                if(bestMove == Move.DOWN){
+                    if(xInRow == m - 1){ // No score to add up if at edge
+                        scores[xInRow][row] = A[xInRow][row];
+                    }else{ // Add up score from bottom
+                        scores[xInRow][row] = A[xInRow][row] + scores[xInRow][row + 1];
+                    }
+                }else{ // Move right
+                    // TODO: Copy from above block and modify
+                }
             }
             // Iterate through the column
             for(int yInColumn = row; yInColumn >= 0; yInColumn--){
-                moves[column][yInColumn] = findBestMove(n, m, column, yInColumn, A, scores, moves);
+                Move bestMove = findBestMove(n, m, column, yInColumn, A, scores);
+                moves[column][yInColumn] = bestMove;
+                if(bestMove == Move.DOWN){
+                    if(xInRow == m){
+                        scores[xInRow][row] = A[xInRow][row];
+                    }
+                }
             }
             System.out.println("DEBUG: Finished finding best moves");
         }
     }
 
     private static Move findBestMove(int numRows, int numCols, int x, int y, int[][] grid, int[][] scores){
-        if(y >= numRows){ // If no lower cells, must go right (include bottom rightmost cell)
+        if(y >= numRows){ // If no lower cells, must go right (including bottom rightmost cell)
             return Move.RIGHT;
         }
         if(x >= numCols){ // If no right cells, must go down
